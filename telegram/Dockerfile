@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libegl1-mesa-dev \
     libgl1-mesa-glx \
-	  telegram-desktop \
+	telegram-desktop \
     --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

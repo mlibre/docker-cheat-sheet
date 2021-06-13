@@ -64,8 +64,8 @@ docker run -d --name cname -p 80:8080 hello-world
 # -d: detached, background
 # --name: container name
 # -p: map container port to os port
-# 8080: container port
 # 80: OS port
+# 8080: container port
 # hello-world: Image Name
 docker start cname
 docker logs cname
