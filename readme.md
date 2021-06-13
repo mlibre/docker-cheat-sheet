@@ -41,7 +41,7 @@ docker rmi IMAGE_NAME
 docker rm CONTAINER_NAME
 
 docker system prune -a -f # To remove any unused image, container
-docker system prune --volumes -f -a # removing volumes
+docker system prune --volumes -f -a # also removing volumes
 ```
 
 ## Running
