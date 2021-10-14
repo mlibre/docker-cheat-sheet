@@ -88,8 +88,14 @@ docker logs CONTAINER_ID_OR_NAME
 docker build --tag name:tag .
 ```
 
-### Other commands
+## Other commands
 ```bash
 docker exec -ti -u root mystifying_herschel bash
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
+```
+
+# 8G tmpFs
+```bash
+nano /etc/fstab
+tmpfs /tmp  tmpfs defaults,noatime,size=8G,mode=1777 0 0
 ```
