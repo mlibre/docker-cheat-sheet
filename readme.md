@@ -11,7 +11,7 @@
 - [Log](#log)
 - [Build](#build)
 - [Other commands](#other-commands)
-- [G tmpFs](#g-tmpfs)
+- [8G tmpFs](#8g-tmpfs)
 - [Telegram Example](telegram/readme.md)
 
 ## Installation
