@@ -1,36 +1,61 @@
 
-## Build
+# Build
+
 ```bash
-docker build --tag telegram:latest .
+# Create a new telegram image based on the Dockerfile 
+docker build --tag telegram:latest ./
 
-docker run -d --name td \
-	--hostname=$(hostname) \
-	-e DISPLAY=unix$DISPLAY \
-	-e PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native \
-	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	-v "/home/$(whoami)/.Xauthority:/home/user/.Xauthority" \
-	-v $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse \
-	-v /etc/localtime:/etc/localtime:ro \
-	telegram:latest
+# Creating a new container from the image
+docker run -d --name tc \
+ --hostname=$(hostname) \
+ -e DISPLAY=unix$DISPLAY \
+ -e PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native \
+ -v /tmp/.X11-unix:/tmp/.X11-unix \
+ -v "/home/$(whoami)/.Xauthority:/home/user/.Xauthority" \
+ -v $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse \
+ -v /etc/localtime:/etc/localtime:ro \
+ telegram:latest
 
-docker start td
+# Stopping and starting the container
+docker stop tc
+docker start tc
 ```
 
-## Save the cotainer
-```bash
-docker container commit td telegram:con
-docker rmi telegram:latest
-# makes a new image based on the container (data inclded)
-docker run -d --name td \
-	--hostname=$(hostname) \
-	-e DISPLAY=unix$DISPLAY \
-	-e PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native \
-	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	-v "/home/$(whoami)/.Xauthority:/home/user/.Xauthority" \
-	-v $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse \
-	-v /etc/localtime:/etc/localtime:ro \
-	telegram:con
+# Change the container and create a new image
 
-docker image save telegram:con -o image.tar
+Now we can change something in the container.
+
+```bash
+docker exec -ti -u root tc bash
+touch hi
+```
+
+And create a new image
+
+```bash
+docker container commit tc telegram:newtag
+# Remove the original image
+docker rmi -f telegram:latest
+# Save the new image
+docker image save telegram:newtag -o image.tar
 docker image load -i image.tar
+```
+
+Create a new container from the new image
+
+```bash
+docker run -d --name tcnew \
+ --hostname=$(hostname) \
+ -e DISPLAY=unix$DISPLAY \
+ -e PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native \
+ -v /tmp/.X11-unix:/tmp/.X11-unix \
+ -v "/home/$(whoami)/.Xauthority:/home/user/.Xauthority" \
+ -v $XDG_RUNTIME_DIR/pulse:$XDG_RUNTIME_DIR/pulse \
+ -v /etc/localtime:/etc/localtime:ro \
+ telegram:newtag
+
+# You can find the 'hi' file you created in the container 
+docker exec -ti -u root tcnew bash
+root@user:~# ls
+# hi
 ```

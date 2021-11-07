@@ -1,14 +1,42 @@
-Docker
-===
+# Docker
+
+- [Installation](#installation)
+- [Enabling, Disabling](#enabling-disabling)
+- [Info](#info)
+- [Listing](#listing)
+- [Pulling](#pulling)
+- [Removing](#removing)
+- [Running](#running)
+  - [Example](#example)
+- [Log](#log)
+- [Build](#build)
+- [Other commands](#other-commands)
+- [G tmpFs](#g-tmpfs)
+- [Telegram Example](telegram/readme.md)
 
 ## Installation
+
 ```bash
 sudo pacman -S docker
 sudo usermod -aG docker $USER
-sudo systemctl enable containerd.service
-sudo systemctl enable docker.service
 sudo systemctl restart docker
 sudo reboot
+```
+
+## Enabling, Disabling
+
+```bash
+sudo systemctl enable containerd.service
+sudo systemctl enable docker.service
+
+sudo systemctl disable containerd.service
+sudo systemctl disable docker.service
+
+sudo systemctl start containerd.service
+sudo systemctl start docker.service
+
+sudo systemctl stop containerd.service
+sudo systemctl stop docker.service
 ```
 
 ## Info
@@ -30,12 +58,14 @@ docker ps -a
 ```
 
 ## Pulling
+
 ```bash
 docker pull ubuntu
 docker pull ubuntu:14.04
 ```
 
 ## Removing
+
 ```bash
 docker rmi IMAGE_NAME
 docker rm CONTAINER_NAME
@@ -58,7 +88,9 @@ docker start CONTAINER_NAME
 docker stop CONTAINER_NAME
 # stop a container
 ```
+
 ### Example
+
 ```bash
 docker run -d --name cname -p 80:8080 hello-world
 # -d: detached, background
@@ -72,29 +104,33 @@ docker logs cname
 
 docker run -it bash
 docker run -it bash /usr/local/bin/bash 
-# -it: itractive mode. it will open a terminal after running the container
+# -it: interactive mode. it will open a terminal after running the container
 # /usr/local/bin/bash: the shell to open. if not specified the default path will be used
 # CTRL + D or exit: to close the bash and so the container
-# CTRL + P then CTRL + Q: to exit without stoping the containr
+# CTRL + P then CTRL + Q: to exit without stopping the container
 ```
 
 ## Log
+
 ```bash
 docker logs CONTAINER_ID_OR_NAME
 ```
 
 ## Build
+
 ```bash
-docker build --tag name:tag .
+docker build --tag imageName:tag .
 ```
 
 ## Other commands
+
 ```bash
-docker exec -ti -u root mystifying_herschel bash
+docker exec -ti -u root CONTAINER_NAME bash
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 ```
 
-# 8G tmpFs
+## 8G tmpFs
+
 ```bash
 nano /etc/fstab
 tmpfs /tmp  tmpfs defaults,noatime,size=8G,mode=1777 0 0
