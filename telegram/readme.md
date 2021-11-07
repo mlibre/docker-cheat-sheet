@@ -23,16 +23,17 @@ docker start tc
 
 # Change the container and create a new image
 
-Now we can change something in the container.
+We can change the container by creating a new file.
 
 ```bash
 docker exec -ti -u root tc bash
 touch hi
 ```
 
-And create a new image
+Create a new image
 
 ```bash
+# Creates a new image based on the tc container
 docker container commit tc telegram:newtag
 # Remove the original image
 docker rmi -f telegram:latest
